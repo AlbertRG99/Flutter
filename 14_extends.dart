@@ -20,8 +20,9 @@ abstract class PlantaEnergia {
   void consumoEnergia( double cantidad ); // Aquí no se implementa nada, solo se define
 }
 
-// EXTENDS (heredar) o IMPLEMENTS
+// EXTENDS (heredar)
 
+// Extendida: PlantaViento
 class PlantaViento extends PlantaEnergia {
 
   PlantaViento({ required double energiaInicial })
@@ -32,3 +33,23 @@ class PlantaViento extends PlantaEnergia {
   }
 
 }
+// Extendida: PlantaAgua
+class PlantaAgua extends PlantaEnergia {
+
+  PlantaAgua({ required double energiaInicial })
+    : super(energiaRestante: energiaInicial, tipo: tipoPlanta.agua); // super para acceder a la interfaz
+
+  void consumoEnergia( double cantidad ) {
+    energiaRestante -= cantidad;
+  }
+
+}
+
+/*
+    PlantaEnergía 
+   (interfaz base)
+      |         |
+      |         |
+PlantaAgua    PlantaViento
+(clase ext)   (clase ext)
+ */
