@@ -42,13 +42,24 @@ class _ImageBubble extends StatelessWidget {
     // MediaQuery da información del dispositivo
     final size = MediaQuery.of(context).size; // tamaño pantalla
 
-    return ClipRRect(
+    return ClipRRect( // redondear un widget
       borderRadius: BorderRadius.circular(20 ),
       child: Image.network( // mantener siempre las proporciones
         'https://yesno.wtf/assets/yes/8-2f93962e2ab24427df8589131da01a4d.gif',
         width: size.width*0.7,
         height: 150,
         fit: BoxFit.cover,
+        
+        // Mensaje mientras carga el widget
+        loadingBuilder: (context, child, loadingProgress) {
+          if ( loadingProgress == null ) return child; // si ya ha cargado, retorno el widget
+          return Container( // si todavía está cargando, retorno un mensaje por pantalla
+            width: size.width * 0.7,
+            height: 150,
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: const Text('Tu amigo está enviando un mensaje'),
+          );
+        }
       ));
 
   }

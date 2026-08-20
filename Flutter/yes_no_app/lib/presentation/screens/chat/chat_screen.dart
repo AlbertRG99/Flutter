@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yes_no_app/presentation/widgets/chat/mi_mensaje.dart';
 import 'package:yes_no_app/presentation/widgets/chat/su_%20mensaje.dart';
+import 'package:yes_no_app/presentation/widgets/shared/campo_caja_mensaje.dart';
 
 class PantallaChat extends StatelessWidget {
   const PantallaChat({super.key});
@@ -47,8 +48,8 @@ class _VistaChat extends StatelessWidget {
               ),
             ),
 
-            Text('Hola'),
-            Text('Mundo'),
+            // Caja de texto
+            const CajaTexto(),
           ],
         ),
       ),
