@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:yes_no_app/domain/entities/mensaje.dart';
+import 'package:yes_no_app/presentation/providers/chat_provider.dart';
 import 'package:yes_no_app/presentation/widgets/chat/mi_mensaje.dart';
 import 'package:yes_no_app/presentation/widgets/chat/su_%20mensaje.dart';
 import 'package:yes_no_app/presentation/widgets/shared/campo_caja_mensaje.dart';
@@ -31,6 +34,11 @@ class _VistaChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // Importar el provider de contexto desde el padre (escuchando)
+    final chatProvider = context.watch<ChatProvider>();
+
+    // Definir el body
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -39,17 +47,25 @@ class _VistaChat extends StatelessWidget {
 
             Expanded(
               child: ListView.builder(  // por defecto, la lista es infinita
-                itemCount: 100,
+                controller: chatProvider.controlardorScroller, // control del scroll que tiene que ser notificado cuando hay un nuevo mensaje (se maneja en el provider)
+                itemCount: chatProvider.listaMensajes.length, // lo que haya en la lista de mensajes del provider
                 itemBuilder: (context, index) {
-                  return (index % 2 == 0) // alternar entra mis mensajes y los del otro (pruebas)
-                    ? const SuMensaje()
-                    : const MiMensaje();
+                  final mensaje = chatProvider.listaMensajes[index];
+
+                  if (mensaje.deQuien == DeQuien.otro){
+                    return SuMensaje();
+                  } else {
+                    return MiMensaje(mensaje: mensaje); // paso el mensaje de la lista del provider
+                  }
+
                 },
               ),
             ),
 
             // Caja de texto
-            const CajaTexto(),
+            CajaTexto(
+              onValue: chatProvider.enviarMensaje,
+            ),
           ],
         ),
       ),

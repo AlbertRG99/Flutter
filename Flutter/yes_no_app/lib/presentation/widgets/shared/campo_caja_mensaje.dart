@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CajaTexto extends StatelessWidget {
-  const CajaTexto({super.key});
+
+  final ValueChanged<String> onValue; 
+
+  const CajaTexto({super.key, required this.onValue});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,10 @@ class CajaTexto extends StatelessWidget {
         icon: Icon(Icons.send_outlined),
         onPressed: () {
           final textValue = controladorTexto.value.text;
-          print('button: $textValue');
+
+          // 
+          onValue(textValue);
+
           controladorTexto.clear();
         },
       ),
@@ -52,7 +58,8 @@ class CajaTexto extends StatelessWidget {
       onFieldSubmitted: (value) { 
         print('Enviado el valor $value');
         controladorTexto.clear(); // limpiar al enviar (ENTER)
-        focusNode.requestFocus(); // evitar que el teclado de minimice al enviar
+        focusNode.requestFocus(); // evitar que el teclado de minimice al enviar  
+        onValue(value);
       },
 
       // Teclas que se van pulsado en ese momento
